@@ -1,20 +1,22 @@
 import * as esbuild from 'esbuild-wasm';
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { useState, useEffect, useRef } from "react";
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { fetchPlugin } from './plugins/fetch-plugin';
 
 
+
 const App = () => {
   const ref = useRef<any>();
+  const iframe = useRef<any>();
   const [input, setInput] = useState('');
   const [code, setCode] = useState('');
 
   const startService = async () => {
     ref.current = await esbuild.startService({
       worker: true,
-      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',      
-    })    
+      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',
+    })
   }
 
   useEffect(() => {
@@ -39,16 +41,25 @@ const App = () => {
         'process.env.NODE_ENV': '"production"',
         global: 'window',
       }
-    })
+    });
 
-    setCode(result.outputFiles[0].text);   
-
-    try {
-      eval(result.outputFiles[0].text);
-    } catch (error) {
-      alert(error)
-    }
+    // setCode(result.outputFiles[0].text);  
+    iframe.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
   }
+
+  const html = `
+        <html>
+          <head></head>
+          <body>
+            <div id="root"></div>
+            <script>
+              window.addEventListener('message', (event) => {
+                eval(event.data);
+              }, false);
+            </script>
+          </body>
+        </html>
+  `;
 
   return (
     <div>
@@ -57,19 +68,16 @@ const App = () => {
         <button onClick={onClick}>Submit</button>
       </div>
       <pre>{code}</pre>
-      <iframe srcDoc={html} />
+      <iframe ref={iframe} sandbox='allow-scripts' srcDoc={html} />
     </div>
   )
 }
 
-const html = `
-<h1>Local HTML doc</h1>
-`;
-
-ReactDOM.render(
-  <App />,
-  document.querySelector('#root')
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+root.render(  
+    <App />  
 );
 
-//started 10 13
+
+//started 10 19
 
