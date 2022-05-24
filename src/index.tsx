@@ -70,7 +70,10 @@ const App = () => {
 
   return (
     <div>
-      <CodeEditor/>
+      <CodeEditor
+        initialValue='const a = 1'
+        onChange={(value) => setInput(value)}
+      />
       <textarea value={input} onChange={e => setInput(e.target.value)}></textarea>
       <div>
         <button onClick={onClick}>Submit</button>
@@ -81,7 +84,6 @@ const App = () => {
 }
 
 
-
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(  
     <App />  
@@ -90,5 +92,5 @@ root.render(
 
 
 
-//started 11 8
+//started 11 10
 
