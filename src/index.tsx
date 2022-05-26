@@ -1,22 +1,16 @@
-import ReactDOM from "react-dom/client";
 import 'bulmaswatch/superhero/bulmaswatch.min.css';
-import CodeCell from "./components/code-cell";
+import ReactDOM from 'react-dom';
+import CodeCell from './components/code-cell';
 
-const App = () => {     
+const App = () => {
   return (
     <div>
       <CodeCell />      
     </div>
-  )
-}
+  );
+};
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
-root.render(  
-    <App />  
-);
+ReactDOM.render(<App />, document.querySelector('#root'));
 
 
-
-
-//started 13 3
-
+//started 13 14
