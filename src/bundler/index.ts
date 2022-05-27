@@ -27,7 +27,7 @@ const bundle = async (rawCode: string) => {
       code: result.outputFiles[0].text,
       error: ''
     };
-  } catch (error) {
+  } catch (error: any) {
     return {
       code: '',
       error: error.message
