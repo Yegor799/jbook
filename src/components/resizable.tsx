@@ -16,7 +16,7 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
     let timer: any;
     const listener = () => {
       if (timer) {
-        clearTimeout(timer)
+        clearTimeout(timer);
       }
       timer = setTimeout(() => {
         setInnerHeight(window.innerHeight);
@@ -24,43 +24,38 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
         if (window.innerWidth * 0.75 < width) {
           setWidth(window.innerWidth * 0.75);
         }
-      }, 100);      
+      }, 100);
     };
     window.addEventListener('resize', listener);
 
     return () => {
       window.removeEventListener('resize', listener);
-    }
-  }, [width])
-  
+    };
+  }, [width]);
 
   if (direction === 'horizontal') {
     resizableProps = {
-      className: 'resize-horizontal', 
-      width,
-      height: Infinity,
-      resizeHandles: ['e'],
+      className: 'resize-horizontal',
       minConstraints: [innerWidth * 0.2, Infinity],
       maxConstraints: [innerWidth * 0.75, Infinity],
+      height: Infinity,
+      width,
+      resizeHandles: ['e'],
       onResizeStop: (event, data) => {
-        setWidth(data.size.width)
-      }
-    }
+        setWidth(data.size.width);
+      },
+    };
   } else {
     resizableProps = {
-      width: Infinity,
-      height: 300,
-      resizeHandles: ['s'],
       minConstraints: [Infinity, 24],
       maxConstraints: [Infinity, innerHeight * 0.9],
-    }
-  }  
+      height: 300,
+      width: Infinity,
+      resizeHandles: ['s'],
+    };
+  }
 
-  return (
-    <ResizableBox {...resizableProps}>
-      {children}
-    </ResizableBox>
-  )
+  return <ResizableBox {...resizableProps}>{children}</ResizableBox>;
 };
 
 export default Resizable;

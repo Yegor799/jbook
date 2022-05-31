@@ -22,17 +22,17 @@ const bundle = async (rawCode: string) => {
         global: 'window',
       },
     });
-    
+
     return {
       code: result.outputFiles[0].text,
-      error: ''
+      err: '',
     };
-  } catch (error: any) {
+  } catch (err) {
     return {
       code: '',
-      error: error.message
-    }
-  }  
+      err: err.message,
+    };
+  }
 };
 
 export default bundle;
