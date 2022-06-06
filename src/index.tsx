@@ -1,4 +1,5 @@
 import 'bulmaswatch/superhero/bulmaswatch.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { store } from './state';
@@ -16,4 +17,5 @@ const App = () => {
 
 ReactDOM.render(<App />, document.querySelector('#root'));
 
-//started 18 7
+
+//started 19
